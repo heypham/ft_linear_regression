@@ -1,2 +1,5 @@
 numpy
 pandas
+matplotlib
+pickle-mixin
+scikit-learn
