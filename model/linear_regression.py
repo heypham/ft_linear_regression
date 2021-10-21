@@ -47,9 +47,9 @@ class LinearRegression():
         y_pred = self.training_dataframe['predicted_price']
         n = len(self.training_dataframe)
         self.training_dataframe['loss_price'] = y_pred - y
-        self.training_dataframe['loss_price*mileage'] = self.training_dataframe['loss_price'] * self.training_dataframe['normalized_kms']
+        # self.training_dataframe['loss_price*mileage'] = self.training_dataframe['loss_price'] 
         delta_theta0 = (self.lr/n) * sum(self.training_dataframe['loss_price'])
-        delta_theta1 = (self.lr/n) * sum(self.training_dataframe['loss_price*mileage'])
+        delta_theta1 = (self.lr/n) * sum(self.training_dataframe['loss_price'] * X)
         return delta_theta0, delta_theta1
 
     def fit(self, X_train, y_train, lr, it):
