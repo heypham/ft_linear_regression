@@ -5,6 +5,7 @@ class used to train regression model
 
 import copy
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 class LinearRegression(object):
@@ -50,13 +51,17 @@ class LinearRegression(object):
         """
         Gradient descent algorithm to update theta values
         """
+        self.training_dataset = pd.DataFrame({'X': X, 'y': y})
         X = self.feature_scale_normalise(X)
+        self.training_dataset['X_norm'] = X
         m = X.shape[0]
         for _ in range(iterations):
             loss = self.hypothesis(X, self.theta) - y
+            self.training_dataset['loss'] = loss
             self.theta[0] -= (alpha / m) * np.sum(loss)
             self.theta[1] -= (alpha / m) * np.sum(loss * X)
             self.cost_history.append(self.cost(X, y, self.theta))
+        # print(self.training_dataset)
         return self.theta
 
     def hypothesis(self, X, theta):

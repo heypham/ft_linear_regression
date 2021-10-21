@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import pickle
 import argparse
 from sklearn.model_selection import train_test_split
-from classes.linearRegression import linearRegression
+from classes.linear_regression import LinearRegression
 
 def parse_arguments():
     try:
@@ -37,7 +37,7 @@ def main():
     # Split data into testing and training sets
     x_train, x_test,y_train,y_test = train_test_split(X,y,test_size =0.2)
 
-    model = linearRegression()
+    model = LinearRegression()
     if args.verbose == 1:
         print("Training the model with lr %f and %d iterations" % (alpha, it))
     model.train(x_train, y_train, alpha, it)
