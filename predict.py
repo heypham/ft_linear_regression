@@ -24,7 +24,6 @@ def main():
     try:
         args = parse_arguments()
 
-        verbose = args.verbose
         weights_file = args.weights
         if os.path.exists(weights_file):
             saved_weights = pd.read_csv(weights_file)
