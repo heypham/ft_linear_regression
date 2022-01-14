@@ -59,10 +59,11 @@ class LinearRegression():
         self.training_dataframe['loss_price'] = y_pred - y
         delta_theta0 = (self.lr/n) * self.training_dataframe['loss_price'].sum()
         delta_theta1 = (self.lr/n) * (self.training_dataframe['loss_price'] * X).sum()
-        self.error_history.append(abs(self.training_dataframe['loss_price'].sum()) / n)
+        self.error_history.append(abs(self.training_dataframe['loss_price'].mean())) # mean absolute error MAE
+        # self.error_history.append((np.square(self.training_dataframe['loss_price'])).mean()) # mean squared error
         return delta_theta0, delta_theta1
 
-    def fit(self, X_train, y_train, lr, it, verbose=False, plot=False):
+    def fit(self, X_train, y_train, lr=0.01, it=1000, verbose=False, plot=False):
         """
         training method.
         Arguments are
@@ -80,7 +81,7 @@ class LinearRegression():
             self.training_dataframe['predicted_price'] = self.hypothesis(X_train_normalized, self.theta0, self.theta1)
             delta_theta0, delta_theta1 = self.gradient_descent()
             if verbose == True:
-                if i % 100 == 0:
+                if i % (it/10) == 0:
                     print("Iteration {0: <5} : Updating thetas from θ₀ = {1: <19} -> {2: <19}, θ₁ = {3: <19} -> {4: <19}".format(i, self.theta0, (self.theta0 - delta_theta0), self.theta1, (self.theta1 - delta_theta1)))
             self.theta0 -= delta_theta0
             self.theta1 -= delta_theta1
@@ -116,6 +117,8 @@ class LinearRegression():
         # Plot of cost history
         ax1.plot(range(self.it), self.error_history)
         ax1.set_title("Error history plot")
+        print(self.error_history)
+        print(len(self.error_history))
 
         # Plot of real prices vs hypothetical prices
         Xnorm = self.feature_scale_normalise(X)

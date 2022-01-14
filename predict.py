@@ -1,8 +1,6 @@
 #/usr/bin/python3
 
 import argparse
-from numpy import save
-# import pickle
 import pandas as pd
 import os.path
 
@@ -14,7 +12,7 @@ def parse_arguments():
     """
     try:
         parser = argparse.ArgumentParser(prog='predict', usage='python3 %(prog)s.py [-h] weights_file', description='Linear regression model predict program')
-        parser.add_argument('weights', help='weights file', type=str)
+        parser.add_argument('-w', '--weights', help='weights file', type=str)
         args = parser.parse_args()
         return args
     except Exception as e:
@@ -25,10 +23,17 @@ def main():
         args = parse_arguments()
 
         weights_file = args.weights
-        if os.path.exists(weights_file):
+        if weights_file and os.path.exists(weights_file):
             saved_weights = pd.read_csv(weights_file)
         else:
-            raise NameError("File path does not exist. Verify the file exists or run train.py with the dataset.")
+            # raise NameError("File path does not exist. Verify the file exists or run train.py with the dataset.")
+            print("No weights.csv file found. Running model training")
+            model = LinearRegression()
+            data = pd.read_csv('data/data.csv')
+            X, y = data.km, data.price
+            model.fit(X, y)
+            model.save_model()
+            saved_weights = pd.read_csv('weights.csv')
         print("How many kilometers has your car?")
         user_input = input()
         model = LinearRegression()

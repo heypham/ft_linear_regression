@@ -14,7 +14,7 @@ def parse_arguments():
         parser = argparse.ArgumentParser(prog='train', usage='python3 %(prog)s.py [-h] csv_datafile', description='Linear regression model training program')
         parser.add_argument('datafile', help='csv file containing mileage and prices', type=str)
         parser.add_argument('-lr', '--learning_rate', help='learning rate (default = 0.01)', type=float, default=0.01)
-        parser.add_argument('-it', '--iterations', help='[default = 100]', type=int, default=1000)
+        parser.add_argument('-it', '--iterations', help='[default = 1000]', type=int, default=1000)
         parser.add_argument('-v', '--verbose', help='increase output verbosity', action='store_true')
         parser.add_argument('-p', '--plot', help='display function graph', action='store_true')
         args = parser.parse_args()
@@ -53,6 +53,8 @@ def main():
         # pickle.dump(model, open("linear_regression_model.42", 'wb'))
         if plot:
             model.plot(X, y)
+        if verbose:
+            print("Model Accuracy (MSE): {}".format(model.error_history[-1]))
     except Exception as e:
         print(e)
 
