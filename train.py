@@ -2,8 +2,9 @@
 
 import argparse
 import pandas as pd
+# import pickle
 from model.linear_regression import LinearRegression
-from sklearn.model_selection import train_test_split
+# from sklearn.model_selection import train_test_split
 
 def parse_arguments():
     """
@@ -37,15 +38,21 @@ def main():
 
         learning_rate = args.learning_rate
         iterations = args.iterations
+        verbose = args.verbose
+        plot = args.plot
 
         data = read_csv_file(args.datafile)
         X = data.km
         y = data.price
 
-        X_train, X_test, y_train, y_test = train_test_split(X,y,test_size =0.2)
+        # X_train, X_test, y_train, y_test = train_test_split(X,y,test_size =0.2)
 
         model = LinearRegression()
-        model.fit(X_train, y_train, lr=learning_rate, it=iterations)
+        model.fit(X, y, lr=learning_rate, it=iterations, verbose=verbose, plot=plot)
+        model.save_model()
+        # pickle.dump(model, open("linear_regression_model.42", 'wb'))
+        if plot:
+            model.plot(X, y)
     except Exception as e:
         print(e)
 
